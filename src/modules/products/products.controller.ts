@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 
@@ -35,19 +35,27 @@ export class ProductsController {
 
   @Get(':id')
   @ApiOperation({
-    summary: 'Detail products library',
+    summary: 'Detail products',
   })
   findOne(@Param() id: IdDto): Promise<AppResponse<Products> | Observable<never>> {
     return this.productsService.findOne(id.id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
+  @Put(':id')
+  @ApiOperation({
+    summary: 'Update Product',
+  })
+  update(
+    @Param() id: IdDto,
+    @Body() updateProductDto: UpdateProductDto,
+  ): Promise<AppResponse<Products | null> | Observable<never>> {
+    return this.productsService.update(id.id, updateProductDto);
   }
-
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Delete video product',
+  })
   remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+    return this.productsService.remove(id);
   }
 }

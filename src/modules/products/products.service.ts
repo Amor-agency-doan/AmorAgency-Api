@@ -66,11 +66,46 @@ export class ProductsService {
     return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
+  async update(
+    id: string,
+    updateProductDto: UpdateProductDto,
+  ): Promise<AppResponse<Products | null> | Observable<never>> {
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+    const { name } = updateProductDto;
+    const nameTrim = name.trim();
+
+    const product = await this.findByField({ _id: id });
+
+    if (product instanceof Observable) {
+      return product;
+    }
+
+    const data: any = {
+      ...updateProductDto,
+      name: nameTrim,
+    };
+
+    return {
+      content: await this.productsModel.findByIdAndUpdate(
+        { _id: id },
+        {
+          $set: data,
+        },
+        { new: true },
+      ),
+    };  }
+
+  async remove(id: string) {
+    const product = await this.productsModel.findOne({
+      _id: id,
+    });
+
+    if (!product) {
+      throw new BadRequestException('Product not found');
+    }
+
+    return {
+      content: await this.productsModel.findByIdAndRemove({ _id: id }),
+    };
   }
 }
