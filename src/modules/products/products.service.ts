@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -44,8 +44,26 @@ export class ProductsService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string): Promise<AppResponse<Products> | Observable<never>> {
+    const product = await this.findByField({ _id: id });
+
+    if (product instanceof Observable) {
+      return product;
+    }
+
+    return {
+      content: product,
+    };
+  }
+
+  async findByField(filter: object): Promise<Products | Observable<never>> {
+    const product = await this.productsModel.findOne(filter);
+
+    if (!product) {
+      throw new BadRequestException('Product not exist');
+    }
+
+    return product;
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {

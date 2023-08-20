@@ -7,6 +7,7 @@ import { PaginationResponse } from '~/helpers';
 import { Products } from './products.schema';
 import { ProductsService } from './products.service';
 import { FindPaginateProduct, UpdateProductDto, CreateProductDto } from './dto';
+import { IdDto } from '~/common/dto';
 
 @ApiTags('Products')
 @Controller('products')
@@ -36,8 +37,8 @@ export class ProductsController {
   @ApiOperation({
     summary: 'Detail products library',
   })
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+  findOne(@Param() id: IdDto): Promise<AppResponse<Products> | Observable<never>> {
+    return this.productsService.findOne(id.id);
   }
 
   @Patch(':id')
