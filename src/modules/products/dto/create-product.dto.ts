@@ -19,26 +19,33 @@ export class CreateProductDto {
   @MinLength(1)
   @IsString()
   @Transform(({ value }: TransformFnParams) => value?.trim())
-  title: string;
+  name: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  subjectVideo: string;
-
-  @ApiProperty({
-    default: 1,
-  })
-  @IsNotEmpty()
-  @Min(1)
   @IsNumber()
-  videoTime: number;
+  quantity: number;
+  @ApiProperty({
+    default: 0,
+  })
 
+  @IsNotEmpty()
+  @Min(0)
+  @IsNumber()
+  price: number;
   @ApiProperty()
+
+  @IsNotEmpty()
+  @Min(0)
+  @IsNumber()
+  discount: number;
+  @ApiProperty()
+
   @IsString()
   @IsOptional()
   thumbnail: string;
-
   @ApiProperty()
+  
   @IsNotEmpty()
   @IsString()
   link: string;

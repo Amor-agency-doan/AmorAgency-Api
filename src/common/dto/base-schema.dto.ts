@@ -6,15 +6,11 @@ export class BaseMongo {
   @ApiProperty()
   id: string;
 
-  @Prop()
-  @ApiProperty()
-  _id: string;
-
-  @Prop({ type: Date, required: true })
+  @Prop({ type: Date })
   @ApiProperty()
   createdAt: Date;
 
-  @Prop({ type: Date, required: true })
+  @Prop({ type: Date })
   @ApiProperty()
   updatedAt: Date;
 }

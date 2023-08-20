@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 
@@ -8,6 +8,9 @@ import { HttpErrorFilter } from './shared/httpError.filter';
 import { DatabaseModule } from './common/database';
 import { LoggerModule } from './common/logger';
 import { ProductsModule } from './modules/products/products.module';
+import { LoggerMiddleware, UserMiddleware } from './middleware';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -17,7 +20,9 @@ import { ProductsModule } from './modules/products/products.module';
     DatabaseModule,
     LoggerModule,
     ProductsModule,
-
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', ''),
+    }),
   ],
   providers: [
     {
@@ -30,4 +35,8 @@ import { ProductsModule } from './modules/products/products.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(LoggerMiddleware, UserMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
