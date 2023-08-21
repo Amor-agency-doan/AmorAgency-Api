@@ -9,7 +9,7 @@ import { ProductsService } from './products.service';
 import { FindPaginateProduct, UpdateProductDto, CreateProductDto } from './dto';
 import { IdDto } from '~/common/dto';
 
-@ApiTags('Products')
+@ApiTags('[Admin] - Products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}

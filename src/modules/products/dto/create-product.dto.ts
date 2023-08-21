@@ -1,14 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  MaxLength,
-  Min,
-  MinLength,
-} from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, Min, MinLength } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
+import { ProductType } from '~/constants';
 
 export class CreateProductDto {
   @ApiProperty()
@@ -21,6 +14,11 @@ export class CreateProductDto {
   @Transform(({ value }: TransformFnParams) => value?.trim())
   name: string;
 
+  @ApiPropertyOptional({ enum: ProductType })
+  @IsString()
+  @IsOptional()
+  type: string;
+
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
@@ -28,24 +26,20 @@ export class CreateProductDto {
   @ApiProperty({
     default: 0,
   })
-
   @IsNotEmpty()
   @Min(0)
   @IsNumber()
   price: number;
   @ApiProperty()
-
   @IsNotEmpty()
   @Min(0)
   @IsNumber()
   discount: number;
   @ApiProperty()
-
   @IsString()
   @IsOptional()
   thumbnail: string;
   @ApiProperty()
-  
   @IsNotEmpty()
   @IsString()
   link: string;

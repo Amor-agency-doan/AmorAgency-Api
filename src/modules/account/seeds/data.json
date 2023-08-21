@@ -1,0 +1,20 @@
+[
+  {
+    "status": "ACTIVE",
+    "refreshToken": null,
+    "accessToken": null,
+    "role": "ADMIN",
+    "email": "admin@gmail.com",
+    "fullname": "admin",
+    "password": "admin123"
+  },
+  {
+    "status": "ACTIVE",
+    "refreshToken": null,
+    "accessToken": null,
+    "role": "STUDENT",
+    "email": "user@gmail.com",
+    "fullname": "user",
+    "password": "user222"
+  }
+]

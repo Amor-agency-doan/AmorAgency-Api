@@ -13,6 +13,10 @@ export class Products extends BaseMongo {
   @ApiProperty()
   name: string;
 
+  @Prop({ default: null })
+  @ApiProperty()
+  type: string;
+
   @Prop({ default: 0 })
   @ApiProperty()
   quantity: number;

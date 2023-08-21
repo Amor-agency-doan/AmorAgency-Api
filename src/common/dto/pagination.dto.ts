@@ -33,13 +33,15 @@ export class Sort {
 export class PaginationQueryDto {
   @ApiProperty({
     example: '1',
+    default: 1,
   })
   @IsNumber()
   @Type(() => Number)
   page: number;
 
   @ApiProperty({
-    example: '20',
+    example: '10',
+    default: 10,
   })
   @IsNumber()
   @Type(() => Number)

@@ -19,10 +19,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       throw new ForbiddenException(ACCOUNT_MESSAGES.ACCOUNT_INACTIVE);
     }
 
-    if (headers.refreshtoken && headers.refreshtoken !== user.refreshToken) {
-      throw new ForbiddenException(ACCOUNT_MESSAGES.LOGIN_MULTI_DEVICE);
-    }
-
     return user;
   }
 }

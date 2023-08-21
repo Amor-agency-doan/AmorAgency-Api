@@ -11,6 +11,8 @@ import { ProductsModule } from './modules/products/products.module';
 import { LoggerMiddleware, UserMiddleware } from './middleware';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { SeedsModule } from './common/seeds/seeds.module';
+import { AccountModule } from './modules/account/account.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { join } from 'path';
     DatabaseModule,
     LoggerModule,
     ProductsModule,
+    AccountModule,
+    SeedsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', ''),
     }),

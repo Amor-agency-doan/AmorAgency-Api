@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "seed": "node dist/common/seeds/seeds.module.js",
     "seed:refresh": "node dist/common/seeds/seeds.module.js --refresh",
+    "seed:account": "npx nestjs-command seed:account",
     "seed:products": "npx nestjs-command seed:products"
   },
   "dependencies": {
