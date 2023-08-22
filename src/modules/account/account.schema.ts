@@ -33,6 +33,14 @@ export class Account extends Document {
 
   @Prop({ default: null })
   @ApiProperty()
+  otp: number;
+
+  @Prop({ default: null })
+  @ApiProperty()
+  otpExpiredAt: Date;
+  
+  @Prop({ default: null })
+  @ApiProperty()
   accessToken: string;
 
   @Prop({ default: null })

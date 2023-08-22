@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 
@@ -8,6 +8,9 @@ import { Products } from './products.schema';
 import { ProductsService } from './products.service';
 import { FindPaginateProduct, UpdateProductDto, CreateProductDto } from './dto';
 import { IdDto } from '~/common/dto';
+import { Authorize, Roles } from '~/decorators';
+import { EAccountRole } from '~/constants';
+import { JwtAuthGuard } from '~/guards/jwtAuth.guard';
 
 @ApiTags('[Admin] - Products')
 @Controller('products')
@@ -15,6 +18,9 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
+  @Authorize()
+  @Roles(EAccountRole.ADMIN)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({
     description: 'Create a products',
     summary: 'Create a products',

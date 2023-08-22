@@ -13,6 +13,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SeedsModule } from './common/seeds/seeds.module';
 import { AccountModule } from './modules/account/account.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { MailModule } from './modules/mail/mail.module';
 
 @Module({
   imports: [
@@ -21,8 +23,10 @@ import { AccountModule } from './modules/account/account.module';
     }),
     DatabaseModule,
     LoggerModule,
-    ProductsModule,
+    AuthModule,
     AccountModule,
+    ProductsModule,
+
     SeedsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', ''),

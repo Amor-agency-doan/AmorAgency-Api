@@ -21,20 +21,19 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload) {
-    // if (!payload.accountId) {
-    //   return throwError(new ForbiddenException('Unauthenticated'));
-    // }
-    // const account = await this.authenticationService.find(payload.accountId);
-    // if (!account) {
-    //   return throwError(new ForbiddenException('Unauthenticated'));
-    // }
+  async validate(payload: JwtPayload): Promise<Account | Observable<never>> {
+    if (!payload.accountId) {
+      return throwError(new ForbiddenException('Unauthenticated'));
+    }
+    const account = await this.authenticationService.find(payload.accountId);
+    if (!account) {
+      return throwError(new ForbiddenException('Unauthenticated'));
+    }
 
-    // if (account.status !== EAccountStatus.ACTIVE) {
-    //   return throwError(new ForbiddenException(ACCOUNT_MESSAGES.ACCOUNT_INACTIVE));
-    // }
+    if (account.status !== EAccountStatus.ACTIVE) {
+      return throwError(new ForbiddenException(ACCOUNT_MESSAGES.ACCOUNT_INACTIVE));
+    }
 
-    // return account;
-    
+    return account;
   }
 }

@@ -24,5 +24,5 @@ export const ACCOUNT_MESSAGES = {
   EDUCATION_NOT_MATCHING: 'Education is not matching',
   FULLNAME_INVALID: 'Special characters are not allowed in the name.',
   NOT_PERMISSION: 'Not permission',
+  OTP_REQUIRED: 'Please enter the verification code.',
 };
-
