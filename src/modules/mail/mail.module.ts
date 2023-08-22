@@ -12,11 +12,12 @@ import { MailService } from './mail.service';
         const user = configService.get('MAILER_INCOMING_USER', '');
         const pass = configService.get('MAILER_INCOMING_PASS', '');
         const port = Number(configService.get('MAILER_INCOMING_PORT', '587'));
+        
         return {
           transport: {
-            host: 'mail1001.onamae.ne.jp',
+            host: 'smtp.gmail.com',
             port: port,
-            ignoreTLS: true,
+            ignoreTLS: false,
             secure: false,
             auth: {
               user: user,
@@ -24,7 +25,7 @@ import { MailService } from './mail.service';
             },
           },
           defaults: {
-            from: '"No Reply" <no-reply@jusei.com>',
+            from: '"No Reply" <no-reply@gmail.com>',
           },
           preview: true,
         };

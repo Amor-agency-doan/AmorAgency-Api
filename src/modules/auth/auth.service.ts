@@ -17,6 +17,7 @@ import { Observable, throwError } from 'rxjs';
 import { ACCOUNT_MESSAGES, EAccountRole, EAccountStatus } from '~/constants';
 import { ChangePasswordDto, CheckOTPDto, ForgotPasswordDto, UpdateInfoDto, UpdatePasswordByOTPDto } from './dto';
 import TimeHelper from '~/helpers/time.helper';
+import { MailService } from '../mail/mail.service';
 
 interface JwtPayload {
   accountId?: string;
@@ -27,7 +28,9 @@ export class AuthService {
   constructor(
     @InjectModel(Account.name) private accountModel: Model<Account>,
     private jwtService: JwtService,
-    private configService: ConfigService, // private mailService: MailService,
+    private mailService: MailService,
+    private configService: ConfigService
+    
   ) {}
 
   async find(id: string): Promise<Account | null> {
@@ -89,7 +92,7 @@ export class AuthService {
     const payload = { accountId: account._id.toString() };
     return this.jwtService.sign(payload);
   }
-  
+
   async login(loginDto: LoginDto): Promise<AppResponse<LoginResponse> | Observable<never>> {
     const account = await this.accountModel.findOne({ email: loginDto.email, isDeleted: false });
 
@@ -195,12 +198,13 @@ export class AuthService {
     }
     const code = Math.floor(1000 + Math.random() * 9000);
     const [mail] = await Promise.all([
-      // this.mailService.forgotPassword(account, code),
+      this.mailService.forgotPassword(account, code),
       this.accountModel.findOneAndUpdate(
         { email: dto.email },
         { otp: code, otpExpiredAt: TimeHelper.moment().add(10, 'minutes').toDate() },
       ),
     ]);
+    
     if (!mail) {
       return throwError(new InternalServerErrorException('Cant send mail'));
     }

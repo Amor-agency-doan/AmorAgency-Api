@@ -21,6 +21,7 @@ import { MailModule } from './modules/mail/mail.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    MailModule,
     DatabaseModule,
     LoggerModule,
     AuthModule,
