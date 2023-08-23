@@ -12,9 +12,18 @@
     "status": "ACTIVE",
     "refreshToken": null,
     "accessToken": null,
-    "role": "STUDENT",
+    "role": "USER",
     "email": "user@gmail.com",
     "fullname": "user",
-    "password": "user222"
+    "password": "user123"
+  },
+  {
+    "status": "ACTIVE",
+    "refreshToken": null,
+    "accessToken": null,
+    "role": "USER",
+    "email": "vietanh123456123@gmail.com",
+    "fullname": "Viet Anh",
+    "password": "admin123"
   }
 ]

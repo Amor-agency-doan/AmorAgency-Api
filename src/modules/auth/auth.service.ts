@@ -10,12 +10,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Account } from '../account/account.schema';
 import { ConfigService } from '@nestjs/config';
-import { LoginDto } from '../account/dto';
 import { AppResponse, ResponseMessage } from '~/common/interfaces';
 import { LoginResponse } from './auth.controller';
 import { Observable, throwError } from 'rxjs';
 import { ACCOUNT_MESSAGES, EAccountRole, EAccountStatus } from '~/constants';
-import { ChangePasswordDto, CheckOTPDto, ForgotPasswordDto, UpdateInfoDto, UpdatePasswordByOTPDto } from './dto';
+import { ChangePasswordDto, CheckOTPDto, ForgotPasswordDto, LoginDto, UpdateInfoDto, UpdatePasswordByOTPDto } from './dto';
 import TimeHelper from '~/helpers/time.helper';
 import { MailService } from '../mail/mail.service';
 

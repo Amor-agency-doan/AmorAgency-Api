@@ -14,8 +14,8 @@ export class Search {
 }
 
 enum EOrder {
-  ASC = 'ASC',
-  DESC = 'DESC',
+  asc = 'asc',
+  desc = 'desc',
 }
 export class Sort {
   @ApiProperty()
@@ -25,7 +25,7 @@ export class Sort {
 
   @ApiProperty({ enum: EOrder })
   @IsString()
-  @IsIn(['ASC', 'DESC'])
+  @IsIn(['asc', 'desc'])
   @IsNotEmpty()
   order: EOrder;
 }

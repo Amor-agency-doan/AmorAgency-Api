@@ -21,7 +21,6 @@ export const ACCOUNT_MESSAGES = {
   LOST_EXPIRED_TIME: 'Lost expired time',
   EMAIL_CANT_BE_EMPTY: 'Email address is not allowed to empty',
   EMAIL_INVALID: 'Email address is invalid',
-  EDUCATION_NOT_MATCHING: 'Education is not matching',
   FULLNAME_INVALID: 'Special characters are not allowed in the name.',
   NOT_PERMISSION: 'Not permission',
   OTP_REQUIRED: 'Please enter the verification code.',

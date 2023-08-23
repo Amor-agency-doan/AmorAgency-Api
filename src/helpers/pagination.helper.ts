@@ -6,7 +6,7 @@ interface PaginationParams {
   perPage: number;
   sort?: {
     field: string;
-    order: 'ASC' | 'DESC';
+    order: 'asc' | 'desc';
   };
   search?: {
     field: string;
@@ -33,7 +33,7 @@ export interface QueryByPagination<Doc> {
   page: number;
   perPage: number;
   match: FilterQuery<Doc>;
-  sort: { [key: string]: 'ASC' | 'DESC' };
+  sort: { [key: string]: 'asc' | 'desc' };
   skip: number;
   rest: any;
 }
@@ -50,7 +50,7 @@ const PaginationHelper = {
   ): QueryByPagination<T> {
     const { page = 1, perPage = 10, sort: sortParams, search: searchParams, ...rest } = paginationDto;
     const skip = (page - 1) * perPage;
-    let sort: { [key: string]: 'ASC' | 'DESC' } = { _id: 'ASC' };
+    let sort: { [key: string]: 'asc' | 'desc' } = { _id: 'asc' };
     if (sortParams) {
       sort = { [sortParams.field]: sortParams.order };
     }
