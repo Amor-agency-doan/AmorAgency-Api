@@ -15,6 +15,8 @@ import { SeedsModule } from './common/seeds/seeds.module';
 import { AccountModule } from './modules/account/account.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
+import { ServicesModule } from './modules/services/services.module';
+import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
 
 @Module({
   imports: [
@@ -32,6 +34,8 @@ import { MailModule } from './modules/mail/mail.module';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', ''),
     }),
+    ServicesModule,
+    FeedbacksModule,
   ],
   providers: [
     {

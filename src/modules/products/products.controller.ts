@@ -11,6 +11,7 @@ import { IdDto } from '~/common/dto';
 import { Authorize, Roles } from '~/decorators';
 import { EAccountRole } from '~/constants';
 import { JwtAuthGuard } from '~/guards/jwtAuth.guard';
+import { RolesGuard } from '~/guards/roles.guard';
 
 @ApiTags('[Admin] - Products')
 @Controller('products')
@@ -18,9 +19,9 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  @Authorize()
   @Roles(EAccountRole.ADMIN)
-  @UseGuards(JwtAuthGuard)
+  @Authorize()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({
     description: 'Create a products',
     summary: 'Create a products',
@@ -31,6 +32,9 @@ export class ProductsController {
   }
 
   @Get()
+  @Roles(EAccountRole.ADMIN)
+  @Authorize()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Get paginate products',
   })
@@ -40,6 +44,9 @@ export class ProductsController {
   }
 
   @Get(':id')
+  @Roles(EAccountRole.ADMIN)
+  @Authorize()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Detail products',
   })
@@ -48,6 +55,9 @@ export class ProductsController {
   }
 
   @Put(':id')
+  @Roles(EAccountRole.ADMIN)
+  @Authorize()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Update Product',
   })
@@ -57,7 +67,11 @@ export class ProductsController {
   ): Promise<AppResponse<Products | null> | Observable<never>> {
     return this.productsService.update(id.id, updateProductDto);
   }
+
   @Delete(':id')
+  @Roles(EAccountRole.ADMIN)
+  @Authorize()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Delete video product',
   })
