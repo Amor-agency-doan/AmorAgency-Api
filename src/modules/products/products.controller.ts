@@ -14,7 +14,7 @@ import { JwtAuthGuard } from '~/guards/jwtAuth.guard';
 import { RolesGuard } from '~/guards/roles.guard';
 
 @ApiTags('[Admin] - Products')
-@Controller('products')
+@Controller('admin/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -77,5 +77,33 @@ export class ProductsController {
   })
   remove(@Param('id') id: string) {
     return this.productsService.remove(id);
+  }
+}
+
+@ApiTags('[User] - Products')
+@Controller('products')
+
+export class UserProductsController {
+  constructor(private readonly productsService: ProductsService) {}
+  @Get('all')
+  @ApiOperation({
+    operationId: 'getAllProducts',
+    description: 'get all products',
+    summary: 'Get all a products',
+  })
+  @ApiOkResponse({ type: Products, isArray: true })
+  findAll() {
+    return this.productsService.findAll();
+  }
+
+  @Get('all-by-type')
+  @ApiOperation({
+    operationId: 'getAllProductsByType',
+    description: 'get all products by type',
+    summary: 'Get all a products by type',
+  })
+  @ApiOkResponse({ type: Products, isArray: true })
+  findAllByType() {
+    return this.productsService.findAllByType();
   }
 }

@@ -3,7 +3,7 @@ import { IsOptional, IsString } from 'class-validator';
 import { PaginationQueryDto } from '../../../common/dto';
 import { ProductType } from '~/constants';
 
-export class FindPaginateProduct extends PaginationQueryDto {
+export class FindPaginateService extends PaginationQueryDto {
   @ApiProperty({
     required: false,
   })

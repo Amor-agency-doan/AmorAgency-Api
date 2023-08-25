@@ -7,7 +7,7 @@ export class CreateProductDto {
   @ApiProperty()
   @IsNotEmpty()
   @MaxLength(255, {
-    message: 'タイトル must not be greater than 255 characters.',
+    message: 'Name must not be greater than 255 characters.',
   })
   @MinLength(1)
   @IsString()

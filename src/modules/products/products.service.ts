@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import PaginationHelper from '~/helpers/pagination.helper';
 import { FindPaginateProduct } from './dto';
 import { escapeRegex } from '~/helpers';
+import { ProductType } from '~/constants';
 
 @Injectable()
 export class ProductsService {
@@ -29,12 +30,15 @@ export class ProductsService {
   async findPaginateProducts(dto: FindPaginateProduct): Promise<AppResponse<PaginationResponse<Products>>> {
     const { page, perPage, match, skip } = PaginationHelper.getQueryByPagination<Products, FindPaginateProduct>(dto);
 
-    const { name } = dto;
+    const { name, type } = dto;
 
     if (name) {
       match.name = { $regex: new RegExp(escapeRegex(name), 'i') };
     }
 
+    if (type) {
+      match.type = { $regex: new RegExp(escapeRegex(type), 'i') };
+    }
     const [videos, count] = await Promise.all([
       this.productsModel.find(match).sort({ createdAt: 'desc' }).limit(perPage).skip(skip),
       this.productsModel.countDocuments(match),
@@ -70,7 +74,6 @@ export class ProductsService {
     id: string,
     updateProductDto: UpdateProductDto,
   ): Promise<AppResponse<Products | null> | Observable<never>> {
-
     const { name } = updateProductDto;
     const nameTrim = name.trim();
 
@@ -93,7 +96,8 @@ export class ProductsService {
         },
         { new: true },
       ),
-    };  }
+    };
+  }
 
   async remove(id: string) {
     const product = await this.productsModel.findOne({
@@ -106,6 +110,28 @@ export class ProductsService {
 
     return {
       content: await this.productsModel.findByIdAndRemove({ _id: id }),
+    };
+  }
+
+  async findAll() {
+    return {
+      content: await this.productsModel.find(),
+    };
+  }
+
+  async findAllByType() {
+    const FACEBOOK_PROFILE = await this.productsModel.find({ type: ProductType.FACEBOOK_PROFILE });
+    const FACEBOOK_ADS_ACCOUNT = await this.productsModel.find({ type: ProductType.FACEBOOK_ADS_ACCOUNT });
+    const FACEBOOK_PAGES = await this.productsModel.find({ type: ProductType.FACEBOOK_PAGES });
+    const FACEBOOK_BUSINESS_ACCOUNT = await this.productsModel.find({ type: ProductType.FACEBOOK_BUSINESS_ACCOUNT });
+
+    return {
+      content: {
+        FACEBOOK_PROFILE: FACEBOOK_PROFILE,
+        FACEBOOK_ADS_ACCOUNT: FACEBOOK_ADS_ACCOUNT,
+        FACEBOOK_PAGES: FACEBOOK_PAGES,
+        FACEBOOK_BUSINESS_ACCOUNT: FACEBOOK_BUSINESS_ACCOUNT,
+      },
     };
   }
 }

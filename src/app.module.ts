@@ -29,13 +29,13 @@ import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
     AuthModule,
     AccountModule,
     ProductsModule,
+    ServicesModule,
+    FeedbacksModule,
 
     SeedsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', ''),
     }),
-    ServicesModule,
-    FeedbacksModule,
   ],
   providers: [
     {

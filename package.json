@@ -21,7 +21,9 @@
     "seed": "node dist/common/seeds/seeds.module.js",
     "seed:refresh": "node dist/common/seeds/seeds.module.js --refresh",
     "seed:account": "npx nestjs-command seed:account",
-    "seed:products": "npx nestjs-command seed:products"
+    "seed:products": "npx nestjs-command seed:products",
+    "seed:services": "npx nestjs-command seed:services"
+
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.9.1",

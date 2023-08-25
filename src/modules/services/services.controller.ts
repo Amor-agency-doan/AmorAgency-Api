@@ -3,14 +3,17 @@ import { ApiTags } from '@nestjs/swagger';
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
+import { AppResponse } from '~/common/interfaces';
+import { Services } from './services.schema';
+import { Observable } from 'rxjs';
 
-@ApiTags('[Admin] - Service')
+@ApiTags('[Admin] - Services')
 @Controller('admin/services')
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
   @Post()
-  create(@Body() createServiceDto: CreateServiceDto) {
+  create(@Body() createServiceDto: CreateServiceDto): Promise<AppResponse<Services> | Observable<never>> {
     return this.servicesService.create(createServiceDto);
   }
 
@@ -18,24 +21,9 @@ export class ServicesController {
   findAll() {
     return this.servicesService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.servicesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateServiceDto: UpdateServiceDto) {
-    return this.servicesService.update(+id, updateServiceDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.servicesService.remove(+id);
-  }
 }
 
-@ApiTags('[User] - Service')
+@ApiTags('[User] - Services')
 @Controller('services')
 export class UserServicesController {
   constructor(private readonly servicesService: ServicesService) {}
