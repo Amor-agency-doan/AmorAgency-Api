@@ -1,5 +1,14 @@
 import { Controller, Post, Body, UseGuards, Delete, Get, Param, Put, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Observable } from 'rxjs';
+import { EAccountRole } from '~/constants';
+import { PaginationResponse } from '~/helpers';
+import { AppResponse, ResponseMessage } from '~/common/interfaces';
+import { AccountService } from './account.service';
+import { JwtAuthGuard } from '~/guards/jwtAuth.guard';
+import { RolesGuard } from '~/guards/roles.guard';
+import { Roles } from '~/decorators';
+import { IdDto } from '~/common/dto';
 import { Account } from './account.schema';
 import {
   DeleteUsersDto,
@@ -9,15 +18,7 @@ import {
   UpdateUserDto,
   registerUserdto,
 } from './dto';
-import { AppResponse, ResponseMessage } from '~/common/interfaces';
-import { Observable } from 'rxjs';
-import { AccountService } from './account.service';
-import { EAccountRole } from '~/constants';
-import { JwtAuthGuard } from '~/guards/jwtAuth.guard';
-import { RolesGuard } from '~/guards/roles.guard';
-import { Roles } from '~/decorators';
-import { IdDto } from '~/common/dto';
-import { PaginationResponse } from '~/helpers';
+
 
 @ApiTags('[Account] - All')
 @Controller('account')

@@ -21,7 +21,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
+  SwaggerModule.setup('api', app, document);
 
   app.setGlobalPrefix(configService.get('API_VERSION', '')).useGlobalPipes(new ValidationPipe());
 
@@ -32,6 +32,6 @@ async function bootstrap() {
   await app.listen(port);
       
   Logger.log(`Server is running on: http://${host}:${port}`, 'Bootstrap');
-  Logger.log(`API docs on: http://${host}:${port}/api-docs`, 'API Docs');
+  Logger.log(`API docs on: http://${host}:${port}/api`, 'API Docs');
 }
 bootstrap();
