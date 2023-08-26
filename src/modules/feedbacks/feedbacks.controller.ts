@@ -9,11 +9,6 @@ import { UpdateFeedbackDto } from './dto/update-feedback.dto';
 export class FeedbacksController {
   constructor(private readonly feedbacksService: FeedbacksService) {}
 
-  @Post()
-  create(@Body() createFeedbackDto: CreateFeedbackDto) {
-    return this.feedbacksService.create(createFeedbackDto);
-  }
-
   @Get()
   findAll() {
     return this.feedbacksService.findAll();
@@ -29,8 +24,4 @@ export class FeedbacksController {
     return this.feedbacksService.update(+id, updateFeedbackDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.feedbacksService.remove(+id);
-  }
 }

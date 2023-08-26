@@ -29,7 +29,6 @@ export class AccountController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT')
   @Get('/search')
-  @ApiTags('Account')
   @ApiOperation({ summary: 'Search account' })
   @ApiResponse({ type: [Account], status: 200 })
   async search(
@@ -72,7 +71,6 @@ export class AccountController {
   @Put('/:id/update')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT')
-  @ApiTags('Account')
   @ApiOperation({ summary: 'Update user', description: 'Update an user' })
   @ApiResponse({ type: Account, status: 200 })
   async updateUser(
@@ -86,7 +84,6 @@ export class AccountController {
   @Put('/:id/update-admin')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT')
-  @ApiTags('Account')
   @ApiOperation({ summary: 'Update admin', description: 'Update an admin' })
   @ApiResponse({ type: Account, status: 200 })
   async updateAdmin(
