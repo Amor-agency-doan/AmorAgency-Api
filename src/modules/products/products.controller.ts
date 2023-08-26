@@ -14,14 +14,14 @@ import { JwtAuthGuard } from '~/guards/jwtAuth.guard';
 import { RolesGuard } from '~/guards/roles.guard';
 
 @ApiTags('[Admin] - Products')
+@Roles(EAccountRole.ADMIN)
+@Authorize()
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('admin/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  @Roles(EAccountRole.ADMIN)
-  @Authorize()
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({
     description: 'Create a products',
     summary: 'Create a products',
@@ -32,9 +32,6 @@ export class ProductsController {
   }
 
   @Get()
-  @Roles(EAccountRole.ADMIN)
-  @Authorize()
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Get paginate products',
   })
@@ -44,9 +41,6 @@ export class ProductsController {
   }
 
   @Get(':id')
-  @Roles(EAccountRole.ADMIN)
-  @Authorize()
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Detail products',
   })
@@ -55,9 +49,6 @@ export class ProductsController {
   }
 
   @Put(':id')
-  @Roles(EAccountRole.ADMIN)
-  @Authorize()
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Update Product',
   })
@@ -69,9 +60,6 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  @Roles(EAccountRole.ADMIN)
-  @Authorize()
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Delete video product',
   })
@@ -82,9 +70,20 @@ export class ProductsController {
 
 @ApiTags('[User] - Products')
 @Controller('products')
-
 export class UserProductsController {
   constructor(private readonly productsService: ProductsService) {}
+
+  @Get('')
+  @ApiOperation({
+    operationId: 'getAllProductsByType',
+    description: 'get all products by type',
+    summary: 'Get all products by type',
+  })
+  @ApiOkResponse({ type: Products, isArray: true })
+  findAllByType() {
+    return this.productsService.findAllByType();
+  }
+
   @Get('all')
   @ApiOperation({
     operationId: 'getAllProducts',
@@ -94,16 +93,5 @@ export class UserProductsController {
   @ApiOkResponse({ type: Products, isArray: true })
   findAll() {
     return this.productsService.findAll();
-  }
-
-  @Get('all-by-type')
-  @ApiOperation({
-    operationId: 'getAllProductsByType',
-    description: 'get all products by type',
-    summary: 'Get all a products by type',
-  })
-  @ApiOkResponse({ type: Products, isArray: true })
-  findAllByType() {
-    return this.productsService.findAllByType();
   }
 }
