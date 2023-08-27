@@ -23,7 +23,6 @@
     "seed:account": "npx nestjs-command seed:account",
     "seed:products": "npx nestjs-command seed:products",
     "seed:services": "npx nestjs-command seed:services"
-
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.9.1",
@@ -40,6 +39,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "handlebars": "^4.7.8",
     "i": "^0.3.7",
     "moment": "^2.29.4",
     "mongoose": "^7.4.3",

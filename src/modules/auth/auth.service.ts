@@ -16,7 +16,7 @@ import { Observable, throwError } from 'rxjs';
 import { ACCOUNT_MESSAGES, EAccountRole, EAccountStatus } from '~/constants';
 import { ChangePasswordDto, CheckOTPDto, ForgotPasswordDto, LoginDto, UpdateInfoDto, UpdatePasswordByOTPDto } from './dto';
 import TimeHelper from '~/helpers/time.helper';
-import { MailService } from '../mail/mail.service';
+import { MailService } from '../../mail/mail.service';
 
 interface JwtPayload {
   accountId?: string;

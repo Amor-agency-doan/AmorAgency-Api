@@ -1,8 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, Global } from '@nestjs/common';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MailService } from './mail.service';
 
+
+@Global()
 @Module({
   imports: [
     MailerModule.forRootAsync({
@@ -12,7 +15,6 @@ import { MailService } from './mail.service';
         const user = configService.get('MAILER_INCOMING_USER', '');
         const pass = configService.get('MAILER_INCOMING_PASS', '');
         const port = Number(configService.get('MAILER_INCOMING_PORT', '587'));
-        
         return {
           transport: {
             host: 'smtp.gmail.com',
@@ -26,6 +28,13 @@ import { MailService } from './mail.service';
           },
           defaults: {
             from: '"No Reply" <no-reply@gmail.com>',
+          },
+          template: {
+            dir: __dirname + '/templates',
+            adapter: new HandlebarsAdapter(),
+            options: {
+              strict: true,
+            },
           },
           preview: true,
         };
