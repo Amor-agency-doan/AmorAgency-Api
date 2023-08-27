@@ -27,7 +27,7 @@ import { MailService } from './mail.service';
             },
           },
           defaults: {
-            from: '"No Reply" <no-reply@gmail.com>',
+            from: '"Amor Agency" <amor-agency@gmail.com>',
           },
           template: {
             dir: __dirname + '/templates',

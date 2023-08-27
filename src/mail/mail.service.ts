@@ -2,6 +2,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Account } from '~/modules/account/account.schema';
+import { CreateFeedbackDto } from '~/modules/feedbacks/dto';
 
 @Injectable()
 export class MailService {
@@ -42,7 +43,7 @@ export class MailService {
         sender: this.MAILER_INCOMING_USER,
         to: user.email,
         from: this.MAILER_INCOMING_USER,
-        subject: '[AMOR AGENCY] Welcome to JUSEI Master',
+        subject: '[AMOR AGENCY] Welcome to Amor Agency',
         html: `   <p>Password: ${user}</p>
                   <p>Amor Agency</p>`,
       })
@@ -56,11 +57,25 @@ export class MailService {
       });
   }
 
-  public async sendFeedBack() {
+  public async sendFeedBack(feedback: CreateFeedbackDto) {
     return await this.service.sendMail({
-      to: 'vietanh123456123@gmail.com',
+      to: this.MAILER_INCOMING_USER,
       subject: '[AMOR AGENCY] FEEDBACK',
       template: './feedback',
+      context: {
+        feedback: feedback,
+      },
+    });
+  }
+
+  public async sendRepliedFeedBack(feedback: any) {
+    return await this.service.sendMail({
+      to: feedback?.email,
+      subject: '[AMOR AGENCY] REPLY FEEDBACK',
+      template: './replied_feedback',
+      context: {
+        feedback: feedback,
+      },
     });
   }
 }

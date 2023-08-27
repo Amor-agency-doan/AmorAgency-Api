@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FeedbacksService } from './feedbacks.service';
-import { CreateFeedbackDto } from './dto/create-feedback.dto';
-import { UpdateFeedbackDto } from './dto/update-feedback.dto';
 import { Feedbacks } from './feedbacks.schema';
+import { AppResponse } from '~/common/interfaces';
+import { Observable } from 'rxjs';
+import { CreateFeedbackDto, FindPaginateFeedback, UpdateFeedbackDto } from './dto';
+import { IdDto } from '~/common/dto';
 
 @ApiTags('[Admin] - Feedbacks')
 @Controller('admin/feedbacks')
@@ -11,18 +13,27 @@ export class FeedbacksController {
   constructor(private readonly feedbacksService: FeedbacksService) {}
 
   @Get()
-  findAll() {
-    return this.feedbacksService.findAll();
+  @ApiOperation({
+    summary: 'Get paginate feedback',
+  })
+  findPaginateFeedbacks(@Query() dto: FindPaginateFeedback) {
+    return this.feedbacksService.findPaginateFeedbacks(dto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.feedbacksService.findOne(+id);
+  @ApiOperation({
+    summary: 'Detail feedback',
+  })
+  findOne(@Param() id: IdDto): Promise<AppResponse<Feedbacks> | Observable<never>> {
+    return this.feedbacksService.findOne(id.id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFeedbackDto: UpdateFeedbackDto) {
-    return this.feedbacksService.update(+id, updateFeedbackDto);
+  @ApiOperation({
+    summary: 'Reply feedback',
+  })
+  update(@Param() id: IdDto, @Body() updateFeedbackDto: UpdateFeedbackDto): Promise<AppResponse<Feedbacks | null> | Observable<never>> {
+    return this.feedbacksService.update(id.id, updateFeedbackDto);
   }
 }
 
@@ -36,7 +47,8 @@ export class UserFeedbacksController {
     description: 'Send feedbacks',
     summary: 'Send feedbacks',
   })
-  sendFeedBack() {
-    return this.feedbacksService.sendFeedBack();
+  @ApiOkResponse({ type: Feedbacks })
+  sendFeedBack(@Body() dto: CreateFeedbackDto): Promise<AppResponse<Feedbacks> | Observable<never>> {
+    return this.feedbacksService.sendFeedBack(dto);
   }
 }

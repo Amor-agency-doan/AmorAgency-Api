@@ -26,6 +26,7 @@ export class CreateProductDto {
   @ApiProperty({
     default: 0,
   })
+  
   @IsNotEmpty()
   @Min(0)
   @IsNumber()

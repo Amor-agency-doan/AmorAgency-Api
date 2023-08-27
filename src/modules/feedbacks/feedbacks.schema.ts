@@ -4,6 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BaseSchema } from 'src/decorators';
 import { BaseMongo } from 'src/common/dto';
 import mongooseLeanVirtuals from 'mongoose-lean-virtuals';
+import { EFeedbackStatus } from '~/constants';
 
 export type FeedbacksDocument = Feedbacks & Document;
 
@@ -25,17 +26,17 @@ export class Feedbacks extends BaseMongo {
   @ApiProperty()
   budget: number;
 
-  @Prop({ default: 0 })
+  @Prop({ default: null })
   @ApiProperty()
-  contact: number;
+  contact: string;
 
   @Prop({ default: null })
   @ApiProperty()
   message: string;
 
-  @Prop({ default: false })
+  @Prop({ default: EFeedbackStatus.NEW })
   @ApiProperty()
-  isReply: boolean;
+  isReply: string;
 }
 
 export const FeedbacksSchema = SchemaFactory.createForClass(Feedbacks);

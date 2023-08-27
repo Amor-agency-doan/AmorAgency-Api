@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateFeedbackDto } from './create-feedback.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateFeedbackDto extends PartialType(CreateFeedbackDto) {}
+export class UpdateFeedbackDto {
+  @ApiProperty()
+  content: string;
+}
