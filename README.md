@@ -19,4 +19,6 @@ $ npm run start:prod
 
 ## Tutorial
 
- - nest g resource "Module" : create resource 
+- nest g resource "Module" : create resource
+
+    example: nest g resource modules/checkout
