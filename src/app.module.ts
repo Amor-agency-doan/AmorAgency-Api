@@ -19,6 +19,7 @@ import { ServicesModule } from './modules/services/services.module';
 import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
 import { CheckoutModule } from './modules/checkout/checkout.module';
 import { TradingHistoriesModule } from './modules/trading-histories/trading-histories.module';
+import { OrdersModule } from './modules/orders/orders.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { TradingHistoriesModule } from './modules/trading-histories/trading-hist
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', ''),
     }),
+    OrdersModule,
     CheckoutModule,
     TradingHistoriesModule,
   ],
