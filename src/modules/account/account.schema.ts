@@ -8,15 +8,6 @@ export const ACCOUNT_COLLECTION = 'accounts';
 
 @BaseSchema({
   collection: ACCOUNT_COLLECTION,
-  // toJSON: {
-  //   transform: (doc): Document<Account> => {
-  //     const account = doc.toObject();
-  //     delete account.password;
-  //     delete account.accessToken;
-  //     delete account.refreshToken;
-  //     return account;
-  //   },
-  // },
 })
 export class Account extends Document {
   @Prop({ required: true, unique: true })
@@ -38,7 +29,7 @@ export class Account extends Document {
   @Prop({ default: null })
   @ApiProperty()
   otpExpiredAt: Date;
-  
+
   @Prop({ default: null })
   @ApiProperty()
   accessToken: string;

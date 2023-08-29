@@ -4,11 +4,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BaseSchema } from 'src/decorators';
 import { BaseMongo } from 'src/common/dto';
 import mongooseLeanVirtuals from 'mongoose-lean-virtuals';
+import { EOrderStatus } from '~/constants';
 
-export type CheckoutDocument = Checkout & Document;
+export type OrderDocument = Order & Document;
 
 @BaseSchema()
-export class Checkout extends BaseMongo {
+export class Order extends BaseMongo {
   @Prop({ required: true })
   @ApiProperty()
   name: string;
@@ -23,7 +24,7 @@ export class Checkout extends BaseMongo {
 
   @Prop({ default: 0 })
   @ApiProperty()
-  price: number;
+  total: number;
 
   @Prop({ default: 0 })
   @ApiProperty()
@@ -36,7 +37,11 @@ export class Checkout extends BaseMongo {
   @Prop({ default: null })
   @ApiProperty()
   link: string;
+
+  @Prop({ default: EOrderStatus.PENDING })
+  @ApiProperty({ enum: EOrderStatus, default: EOrderStatus.PENDING })
+  status: EOrderStatus;
 }
 
-export const CheckoutSchema = SchemaFactory.createForClass(Checkout);
-CheckoutSchema.plugin(mongooseLeanVirtuals);
+export const OrderSchema = SchemaFactory.createForClass(Order);
+OrderSchema.plugin(mongooseLeanVirtuals);
