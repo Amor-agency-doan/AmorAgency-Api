@@ -27,7 +27,7 @@ export class CheckoutService {
       throw new BadRequestException('Order exist!');
     }
 
-    await this.mailService.recieveOrder(order?.email);
+    await this.mailService.recieveOrder(info?.email);
 
     await this.orderModel.create({
       userId: info?.userId,
