@@ -61,7 +61,7 @@ export class ProductsController {
 
   @Delete(':id')
   @ApiOperation({
-    summary: 'Delete video product',
+    summary: 'Delete product',
   })
   remove(@Param('id') id: string) {
     return this.productsService.remove(id);

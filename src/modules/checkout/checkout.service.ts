@@ -4,30 +4,40 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Order, OrderDocument } from '../orders/order.schema';
 import { Model } from 'mongoose';
 import { Products, ProductsDocument } from '../products/products.schema';
+import { EOrderStatus } from '~/constants';
+import { MailService } from '~/mail/mail.service';
 @Injectable()
 export class CheckoutService {
-  constructor(@InjectModel(Order.name) private orderModel: Model<OrderDocument>,@InjectModel(Products.name) readonly productsModel: Model<ProductsDocument>) {}
+  constructor(
+    @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
+    @InjectModel(Products.name) readonly productsModel: Model<ProductsDocument>,
+    private mailService: MailService,
+  ) {}
 
-  create(createCheckoutDto: CreateCheckoutDto) {
+  async create(createCheckoutDto: CreateCheckoutDto) {
     const { info, products } = createCheckoutDto;
 
     if (products.length === 0) {
       throw new BadRequestException('Product not exist');
     }
 
-    products?.map(
-      async (data) =>
-        await this.orderModel.(
-          { _id: data.productId },
-          {
-            $set: {
-              quantity:
-            },
-          },
-          { new: true },
-        ),
-    );
+    const order = await this.orderModel.findOne({email:info?.email, status:EOrderStatus.PENDING});
 
-    return 'This action adds a new checkout';
+    if(order){
+      throw new BadRequestException('Order exist!');
+    }
+
+    await this.mailService.recieveOrder(order?.email);
+
+    await this.orderModel.create({
+      userId: info?.userId,
+      fullname: info?.fullname,
+      email: info?.email,
+      products: products,
+    });
+
+    return {
+      content: 'Order Success! We will contact you as soon as possible!',
+    };
   }
 }

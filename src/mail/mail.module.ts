@@ -36,7 +36,7 @@ import { MailService } from './mail.service';
               strict: true,
             },
           },
-          preview: true,
+          preview: false,
         };
       },
     }),

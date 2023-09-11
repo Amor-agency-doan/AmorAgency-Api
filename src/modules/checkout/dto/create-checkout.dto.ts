@@ -8,5 +8,5 @@ export class CreateCheckoutDto {
 
   @ApiProperty({ type: ProductCheckout, isArray: true })
   @IsOptional()
-  products: string[];
+  products: any;
 }

@@ -78,4 +78,26 @@ export class MailService {
       },
     });
   }
+
+  public async recieveOrder(email: any) {
+    return await this.service.sendMail({
+      to: email,
+      subject: '[AMOR AGENCY] RECIEVE ORDER',
+      template: './recieve_order',
+      context: {
+        content: 'Your order is being processed, we will contact you as soon as possible!',
+      },
+    });
+  }
+
+  public async confirmOrder(email: any) {
+    return await this.service.sendMail({
+      to: email,
+      subject: '[AMOR AGENCY] CONFIRM ORDER',
+      template: './confirm_order',
+      context: {
+        content: 'Your order has been confirmed...',
+      },
+    });
+  }
 }
