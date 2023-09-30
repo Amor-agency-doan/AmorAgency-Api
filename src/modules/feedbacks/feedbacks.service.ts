@@ -87,8 +87,6 @@ export class FeedbacksService {
     const { email } = dto;
 
     const feedback = await this.feedbacksModel.findOne({ category: EFeedbackStatus.NEW, email: email });
-
-    console.log(feedback);
     
     if (feedback) {
       throw new BadRequestException('Your request has been fulfilled! We will talk to you as soon as possible!');

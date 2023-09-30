@@ -94,6 +94,8 @@ export class AccountService {
   }
 
   async registerUser(registerDto: registerUserdto): Promise<AppResponse<Account> | Observable<never>> {
+    console.log(registerDto);
+    
     const user = await this.register(registerDto, EAccountRole.USER);
     if (user instanceof Observable) {
       return user;

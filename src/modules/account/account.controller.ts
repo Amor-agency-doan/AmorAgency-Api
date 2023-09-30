@@ -47,10 +47,7 @@ export class AccountController {
     return this.accountService.registerAdmin(registerDto);
   }
 
-  @Roles(EAccountRole.ADMIN)
   @Post('/register-user')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Register user', description: 'Create an User' })
   @ApiOkResponse({ type: Account, status: 201 })
   async createUser(@Body() registerDto: registerUserdto): Promise<AppResponse<Account> | Observable<never>> {
