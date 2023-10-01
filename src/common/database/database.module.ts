@@ -9,7 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get('MONGODB_URI', ''),
+        uri: configService.get('MONGODB_URI', 'mongodb+srv://anhhv:130120@cluster0.hcdhijj.mongodb.net/amor_agency?retryWrites=true&w=majority'),
         autoCreate: true,
       }),
     }),

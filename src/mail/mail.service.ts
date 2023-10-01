@@ -11,7 +11,7 @@ export class MailService {
     private configService: ConfigService,
   ) {}
 
-  public MAILER_INCOMING_USER = this.configService.get('MAILER_INCOMING_USER', '');
+  public MAILER_INCOMING_USER = this.configService.get('MAILER_INCOMING_USER', 'anhhv@1bitlab.io');
 
   public async forgotPassword(account: Account, code: number): Promise<any | null> {
     return this.service

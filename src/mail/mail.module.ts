@@ -12,8 +12,8 @@ import { MailService } from './mail.service';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const user = configService.get('MAILER_INCOMING_USER', '');
-        const pass = configService.get('MAILER_INCOMING_PASS', '');
+        const user = configService.get('MAILER_INCOMING_USER', 'anhhv@1bitlab.io');
+        const pass = configService.get('MAILER_INCOMING_PASS', 'ljarleybszacduuj');
         const port = Number(configService.get('MAILER_INCOMING_PORT', '587'));
         return {
           transport: {
