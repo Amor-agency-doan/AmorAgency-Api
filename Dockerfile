@@ -19,5 +19,5 @@ COPY . .
 RUN npm run build
 RUN npm run seed:refresh
 
-EXPOSE 3000
+EXPOSE 3333
 CMD [ "node", "dist/main" ]
