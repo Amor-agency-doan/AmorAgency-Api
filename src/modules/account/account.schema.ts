@@ -38,7 +38,7 @@ export class Account extends Document {
   @ApiProperty()
   refreshToken: string;
 
-  @Prop()
+  @Prop({ select: false })
   password: string;
 
   @Prop({ default: EAccountStatus.ACTIVE })

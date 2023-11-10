@@ -14,7 +14,14 @@ import { AppResponse, ResponseMessage } from '~/common/interfaces';
 import { LoginResponse } from './auth.controller';
 import { Observable, throwError } from 'rxjs';
 import { ACCOUNT_MESSAGES, EAccountRole, EAccountStatus } from '~/constants';
-import { ChangePasswordDto, CheckOTPDto, ForgotPasswordDto, LoginDto, UpdateInfoDto, UpdatePasswordByOTPDto } from './dto';
+import {
+  ChangePasswordDto,
+  CheckOTPDto,
+  ForgotPasswordDto,
+  LoginDto,
+  UpdateInfoDto,
+  UpdatePasswordByOTPDto,
+} from './dto';
 import TimeHelper from '~/helpers/time.helper';
 import { MailService } from '~/mail/mail.service';
 
@@ -28,8 +35,7 @@ export class AuthService {
     @InjectModel(Account.name) private accountModel: Model<Account>,
     private jwtService: JwtService,
     private mailService: MailService,
-    private configService: ConfigService
-    
+    private configService: ConfigService,
   ) {}
 
   async find(id: string): Promise<Account | null> {
@@ -203,7 +209,7 @@ export class AuthService {
         { otp: code, otpExpiredAt: TimeHelper.moment().add(10, 'minutes').toDate() },
       ),
     ]);
-    
+
     if (!mail) {
       return throwError(new InternalServerErrorException('Cant send mail'));
     }
