@@ -8,8 +8,8 @@ export class ProductCheckout {
   productId: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Quantity is required' })
-  quantity: number;
+  @IsNotEmpty({ message: 'Total is required' })
+  total: number;
 
   @ApiProperty()
   @IsNotEmpty({ message: 'Price is required' })

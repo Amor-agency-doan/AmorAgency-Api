@@ -28,7 +28,11 @@ export class CheckoutService {
     }
 
     await this.mailService.recieveOrder(info?.email);
-
+    
+    console.log(info);
+    
+    console.log(info?.fullname);
+    
     await this.orderModel.create({
       userId: info?.userId,
       fullname: info?.fullname,
