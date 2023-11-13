@@ -99,8 +99,7 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto): Promise<AppResponse<LoginResponse> | Observable<never>> {
-    const account = await this.accountModel.findOne({ email: loginDto.email, isDeleted: false });
-
+    var account = await this.accountModel.findOne({ email: loginDto.email, isDeleted: false }).select('+password');
     if (!account) {
       return throwError(new BadRequestException(ACCOUNT_MESSAGES.EMAIL_OR_PASSWORD_INVALID));
     }
@@ -114,6 +113,7 @@ export class AuthService {
     if (!isPasswordMatching) {
       return throwError(new UnauthorizedException(ACCOUNT_MESSAGES.EMAIL_OR_PASSWORD_INVALID));
     }
+    account = await this.accountModel.findOne({ email: loginDto.email, isDeleted: false });
 
     const accessToken = this.generateAccessTokenByAccount(account);
     const refreshToken = await this.generateRefreshTokenAndSave(account);
@@ -128,11 +128,13 @@ export class AuthService {
   }
 
   async loginAdmin(loginDto: LoginDto): Promise<AppResponse<LoginResponse> | Observable<never>> {
-    const account = await this.accountModel.findOne({
-      email: loginDto.email,
-      role: { $in: [EAccountRole.ADMIN] },
-      isDeleted: false,
-    });
+    var account = await this.accountModel
+      .findOne({
+        email: loginDto.email,
+        role: { $in: [EAccountRole.ADMIN] },
+        isDeleted: false,
+      })
+      .select('+password');
 
     if (!account) {
       return throwError(new NotFoundException(ACCOUNT_MESSAGES.EMAIL_OR_PASSWORD_INVALID));
@@ -143,7 +145,12 @@ export class AuthService {
 
     const accessToken = this.generateAccessTokenByAccount(account);
     const refreshToken = await this.generateRefreshTokenAndSave(account);
-
+    
+    account = await this.accountModel.findOne({
+      email: loginDto.email,
+      role: { $in: [EAccountRole.ADMIN] },
+      isDeleted: false,
+    });
     return {
       content: {
         accessToken,
