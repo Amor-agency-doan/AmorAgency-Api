@@ -24,14 +24,17 @@ export class AccountService {
     const filter: FilterQuery<Account> = { isDeleted: false };
     const $or: Array<FilterQuery<Account>> = [];
     const $and: Array<FilterQuery<Account>> = [];
+    console.log(dto.role);
+
     Object.keys(dto).forEach((key) => {
       const filterItem = dto[key];
       if (filterItem) {
         if (key === 'keyword' && dto.keyword.trim().length > 0) {
           const keyword = escapeRegex(dto.keyword);
-          console.log(`keyword: ${keyword}`);
-
           $or.push({ email: { $regex: new RegExp(keyword, 'i') } }, { fullname: { $regex: new RegExp(keyword, 'i') } });
+        }
+        if (key === 'role' && dto?.role !== undefined && dto?.role !== 'ALL') {
+          $or.push({ role: dto?.role });
         }
       }
     });
@@ -84,7 +87,7 @@ export class AccountService {
   }
 
   async registerAdmin(registerDto: RegisterAdminDto): Promise<AppResponse<Account> | Observable<never>> {
-    const admin = await this.register(registerDto, EAccountRole.ADMIN);
+    const admin = await this.register(registerDto, registerDto?.role);
 
     if (admin instanceof Observable) {
       return admin;
@@ -94,8 +97,6 @@ export class AccountService {
   }
 
   async registerUser(registerDto: registerUserdto): Promise<AppResponse<Account> | Observable<never>> {
-    console.log(registerDto);
-    
     const user = await this.register(registerDto, EAccountRole.USER);
     if (user instanceof Observable) {
       return user;
