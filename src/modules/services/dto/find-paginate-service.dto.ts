@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 import { PaginationQueryDto } from '../../../common/dto';
-import { EServiceType } from '~/constants';
+import { EServiceCategory, EServiceType } from '~/constants';
 
 export class FindPaginateService extends PaginationQueryDto {
   @ApiProperty({
@@ -15,4 +15,9 @@ export class FindPaginateService extends PaginationQueryDto {
   @IsString()
   @IsOptional()
   type?: string;
+
+  @ApiProperty({ required: false, enum: EServiceCategory })
+  @IsString()
+  @IsOptional()
+  category?: string;
 }

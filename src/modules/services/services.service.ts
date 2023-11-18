@@ -26,7 +26,7 @@ export class ServicesService {
   async findPaginateServices(dto: FindPaginateService): Promise<AppResponse<PaginationResponse<Services>>> {
     const { page, perPage, match, skip } = PaginationHelper.getQueryByPagination<Services, FindPaginateService>(dto);
 
-    const { keyword, type } = dto;
+    const { keyword, type, category } = dto;
 
     if (keyword) {
       match.title = { $regex: new RegExp(escapeRegex(keyword), 'i') };
@@ -35,12 +35,16 @@ export class ServicesService {
     if (type) {
       match.type = { $regex: new RegExp(escapeRegex(type), 'i') };
     }
-    const [videos, count] = await Promise.all([
+
+    if (category) {
+      match.category = { $regex: new RegExp(escapeRegex(category), 'i') };
+    }
+    const [services, count] = await Promise.all([
       this.servicesModel.find(match).sort({ createdAt: 'desc' }).limit(perPage).skip(skip),
       this.servicesModel.countDocuments(match),
     ]);
     return {
-      content: PaginationHelper.getPaginationResponse({ page: page, data: videos, perPage: perPage, total: count }),
+      content: PaginationHelper.getPaginationResponse({ page: page, data: services, perPage: perPage, total: count }),
     };
   }
 
