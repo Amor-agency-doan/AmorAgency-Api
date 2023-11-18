@@ -24,8 +24,6 @@ export class AccountService {
     const filter: FilterQuery<Account> = { isDeleted: false };
     const $or: Array<FilterQuery<Account>> = [];
     const $and: Array<FilterQuery<Account>> = [];
-    console.log(dto.role);
-
     Object.keys(dto).forEach((key) => {
       const filterItem = dto[key];
       if (filterItem) {
