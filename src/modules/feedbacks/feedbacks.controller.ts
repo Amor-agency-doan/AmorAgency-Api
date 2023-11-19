@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Query, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard, RolesGuard } from '~/guards';
 import { FeedbacksService } from './feedbacks.service';
@@ -34,7 +34,7 @@ export class FeedbacksController {
     return this.feedbacksService.findOne(id.id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ApiOperation({
     summary: 'Reply feedback',
   })

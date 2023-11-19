@@ -30,12 +30,16 @@ export class OrdersService {
   async findPaginateOrder(dto: FindPaginateOrder): Promise<AppResponse<PaginationResponse<Order>>> {
     const { page, perPage, match, skip } = PaginationHelper.getQueryByPagination<Order, FindPaginateOrder>(dto);
 
-    const { fullname } = dto;
+    const { keyword, status } = dto;
 
-    if (fullname) {
-      match.fullname = { $regex: new RegExp(escapeRegex(fullname), 'i') };
+    if (keyword) {
+      match.fullname = { $regex: new RegExp(escapeRegex(keyword), 'i') };
+      match.email = { $regex: new RegExp(escapeRegex(keyword), 'i') };
     }
 
+    if (status) {
+      match.status = { $regex: new RegExp(escapeRegex(status), 'i') };
+    }
     const [order, count] = await Promise.all([
       this.orderModel.find(match).sort({ createdAt: 'desc' }).limit(perPage).skip(skip),
       this.orderModel.countDocuments(match),
@@ -69,7 +73,7 @@ export class OrdersService {
     };
 
     await this.mailService.confirmOrder(order?.email);
-    
+
     return {
       content: await this.orderModel.findByIdAndUpdate(
         { _id: id },

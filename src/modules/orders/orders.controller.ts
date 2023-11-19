@@ -15,7 +15,7 @@ import { JwtAuthGuard, RolesGuard } from '~/guards';
 @Roles(EAccountRole.ADMIN)
 @Authorize()
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Controller('orders')
+@Controller('admin/orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 

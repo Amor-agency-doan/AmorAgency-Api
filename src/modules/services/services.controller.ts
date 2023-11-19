@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
@@ -44,7 +44,7 @@ export class ServicesController {
     return this.servicesService.findOne(id.id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ApiOperation({
     summary: 'Update service',
   })
