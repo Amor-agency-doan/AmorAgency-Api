@@ -19,6 +19,7 @@ import { ServicesModule } from './modules/services/services.module';
 import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
 import { CheckoutModule } from './modules/checkout/checkout.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { VnpayModule } from './modules/vnpay/vnpay.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { OrdersModule } from './modules/orders/orders.module';
     }),
     OrdersModule,
     CheckoutModule,
+    VnpayModule,
   ],
   providers: [
     {

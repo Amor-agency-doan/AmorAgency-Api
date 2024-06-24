@@ -15,7 +15,7 @@ export class OrdersService {
   constructor(
     @InjectModel(Order.name) readonly orderModel: Model<OrderDocument>,
     private mailService: MailService,
-  ) {}
+  ) { }
 
   async findByField(filter: object): Promise<Order | Observable<never>> {
     const order = await this.orderModel.findOne(filter);
@@ -27,18 +27,21 @@ export class OrdersService {
     return order;
   }
 
-  async findPaginateOrder(dto: FindPaginateOrder): Promise<AppResponse<PaginationResponse<Order>>> {
+  async findPaginateOrder(dto: FindPaginateOrder, account: any = null): Promise<AppResponse<PaginationResponse<Order>>> {
     const { page, perPage, match, skip } = PaginationHelper.getQueryByPagination<Order, FindPaginateOrder>(dto);
 
     const { keyword, status } = dto;
+    if (account !== null) {
+      match.email = { $regex: new RegExp(escapeRegex(account.email), 'i') };
+    } else {
+      if (keyword) {
+        match.fullname = { $regex: new RegExp(escapeRegex(keyword), 'i') };
+        match.email = { $regex: new RegExp(escapeRegex(keyword), 'i') };
+      }
 
-    if (keyword) {
-      match.fullname = { $regex: new RegExp(escapeRegex(keyword), 'i') };
-      match.email = { $regex: new RegExp(escapeRegex(keyword), 'i') };
-    }
-
-    if (status) {
-      match.status = { $regex: new RegExp(escapeRegex(status), 'i') };
+      if (status) {
+        match.status = { $regex: new RegExp(escapeRegex(status), 'i') };
+      }
     }
     const [order, count] = await Promise.all([
       this.orderModel.find(match).sort({ createdAt: 'desc' }).limit(perPage).skip(skip),
@@ -62,8 +65,7 @@ export class OrdersService {
   }
 
   async update(id: string): Promise<AppResponse<Order | null> | Observable<never>> {
-    const order = await this.findByField({ _id: id });
-
+    const order = await this.findByField({ _id: id, status: EOrderStatus.PENDING });
     if (order instanceof Observable) {
       return order;
     }
@@ -72,7 +74,7 @@ export class OrdersService {
       status: EOrderStatus.RESOLVED,
     };
 
-    await this.mailService.confirmOrder(order?.email);
+    // await this.mailService.confirmOrder(order?.email);
 
     return {
       content: await this.orderModel.findByIdAndUpdate(
